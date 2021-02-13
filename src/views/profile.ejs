@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= image.title %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
+    />
+    <%- include("partials/resetStyles")%>
+    <style>
+      h1 {
+        width: 100%;
+        margin-top: 30px;
+        text-align: center;
+        font-size: 3.4rem;
+        font-weight: 800;
+        color: #454545;
+      }
+
+      .container {
+        width: max-content;
+        min-width: 300px;
+        max-width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px auto;
+        position: relative;
+      }
+
+      img {
+        max-width: 100%;
+        height: 500px;
+        border-radius: 5px;
+        object-fit: cover;
+      }
+
+      img:hover {
+        cursor: pointer;
+      }
+
+      button {
+        width: 100%;
+        margin-top: 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.6rem;
+        font-weight: 500;
+        padding: 10px 0;
+        background-color: #eb4646;
+        color: #ededd3;
+      }
+
+      button:hover {
+        cursor: pointer;
+      }
+
+      .img-link{
+        position: absolute;
+        display: inline-block;
+        width: 100%;
+        height: 500px;
+        background-color: transparent;
+        border-radius: 5px;
+      }
+
+      .img-link:hover{
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+
+  <body>
+    <%- include("partials/navbar")%>
+    <div class="animated fadeInDown">
+      <h1><%= image.title %></h1>
+
+    <div class="container">
+      <img src="<%= image.path %>" alt="" />
+      <a class="img-link"" href="<%= image.path %>"></a>
+      <button id="delete-img">Delete</button>
+    </div>
+    </div>
+
+    <script>
+      document
+        .querySelector("#delete-img")
+        .addEventListener("click", async (e) => {
+          const deleteRequest = await window.fetch(
+            "/image/<%= image._id %>/delete",
+            {
+              method: "DELETE",
+            }
+          );
+
+          if (deleteRequest.ok) {
+            location.href = "/";
+          } else {
+            const response = await deleteRequest.json();
+            console.error(response.error);
+          }
+        });
+    </script>
+  </body>
+</html>

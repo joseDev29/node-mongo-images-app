@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image upload</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
+    />
+    <%- include("partials/resetStyles")%>
+    <style>
+      form {
+        width: 90%;
+        min-width: 300px;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 30px auto;
+        color: #5c5c5c;
+      }
+
+      #img-title {
+        width: 100%;
+        height: 35px;
+        border: 1px solid;
+        border-radius: 5px;
+        padding-left: 5px;
+        font-size: 1.4rem;
+        color: #5c5c5c;
+      }
+
+      #image-file {
+        display: none;
+      }
+
+      .form-group {
+        width: 100%;
+        height: 35px;
+        display: flex;
+        margin-top: 15px;
+      }
+
+      .form-group .btn-file {
+        width: 35%;
+        height: 100%;
+        border: 1px solid #5c5c5c;
+        border-radius: 5px 0 0 5px;
+        font-size: 1.4rem;
+        color: #5c5c5c;
+      }
+
+      .form-group p {
+        width: 65%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding-left: 5px;
+        font-size: 1.4rem;
+        border-width: 1px 1px 1px 0;
+        border-style: solid;
+        border-radius: 0 5px 5px 0;
+      }
+      .btn-submit {
+        width: 100%;
+        margin-top: 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.6rem;
+        font-weight: 500;
+        padding: 10px 0;
+        background-color: #3548b5;
+        color: #ededd3;
+      }
+
+      .btn-submit,
+      .form-group .btn-file {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("partials/navbar")%>
+    <form
+      action="/upload"
+      method="POST"
+      enctype="multipart/form-data"
+      class="animated fadeInDown"
+    >
+      <input
+        type="text"
+        name="img-title"
+        id="img-title"
+        placeholder="Title"
+        required
+      />
+      <div class="form-group">
+        <button type="button" class="btn-file">Select file</button>
+        <p id="file-name">No file selected</p>
+      </div>
+      <input type="file" name="image-file" id="image-file" required />
+      <button class="btn-submit" type="submit">Upload</button>
+    </form>
+    <script>
+      const fileInput = document
+        .querySelector(".btn-file")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          document.querySelector("#image-file").click();
+        });
+
+      document.querySelector("#image-file").addEventListener("change", (e) => {
+        if (e.target.value) {
+          document.querySelector("#file-name").innerText = e.target.value.match(
+            /[\/\\]([\w\d\s\.\-\(\)]+)$/
+          )[1];
+        } else {
+          document.querySelector("#file-name").innerText = `No file selected`;
+        }
+      });
+    </script>
+  </body>
+</html>
